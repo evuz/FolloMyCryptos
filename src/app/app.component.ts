@@ -1,20 +1,25 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import * as firebase from 'firebase';
 
 import { SigninPage } from '../pages/signin/signin';
+import { TabsPage } from './../pages/tabs/tabs';
+
+import { AuthService } from './../services/auth';
+
 @Component({
   templateUrl: 'app.html'
 })
-export class MyApp implements OnInit {
-  rootPage = SigninPage;
+export class MyApp {
+  rootPage: any;
 
   constructor(
     platform: Platform,
     statusBar: StatusBar,
-    splashScreen: SplashScreen
+    splashScreen: SplashScreen,
+    authService: AuthService
   ) {
     firebase.initializeApp({
       apiKey: "AIzaSyCizpJfAuIZ8Y7QoVx15zvWa5Q7bE6OEAM",
@@ -25,16 +30,19 @@ export class MyApp implements OnInit {
       messagingSenderId: "613438993917"
     });
 
-    platform.ready().then(() => {
-      // Okay, so the platform is ready and our plugins are available.
-      // Here you can do any higher level native things you might need.
-      statusBar.styleDefault();
-      splashScreen.hide();
-    });
-  }
+    authService.initListenerAuth();
 
-  ngOnInit() {
+    Promise.all([authService.isUserInit(), platform.ready()])
+      .then(([user]) => {
+        if (user) {
+          this.rootPage = TabsPage;
+        } else {
+          this.rootPage = SigninPage
+        }
 
+        statusBar.styleDefault();
+        splashScreen.hide();
+      })
   }
 }
 

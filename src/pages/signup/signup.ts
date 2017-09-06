@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { NavController } from 'ionic-angular';
+import { NavController, AlertController } from 'ionic-angular';
 
+import { TabsPage } from './../tabs/tabs';
 import { SigninPage } from './../signin/signin';
 
 import { AuthService } from './../../services/auth';
@@ -15,6 +16,7 @@ export class SignupPage implements OnInit {
 
   constructor(
     private navCtrl: NavController,
+    private alertCtrl: AlertController,
     private authService: AuthService
   ) { }
 
@@ -32,8 +34,25 @@ export class SignupPage implements OnInit {
   onSubmit() {
     const { email, password } = this.signupForm.value;
     this.authService.signupUser(email, password)
-    .then(() => console.log('Success'))
-    .catch((err) => console.log(err));
+      .then(() => {
+        this.showAlertLogin();
+        console.log('Success')
+      })
+      .catch((err) => console.log(err));
   }
 
+  showAlertLogin() {
+    this.alertCtrl.create({
+      title: 'Account created!',
+      subTitle: 'Your account has been created successfully.',
+      buttons: [
+        {
+          text: 'OK',
+          handler: () => {
+            this.navCtrl.setRoot(TabsPage);
+          }
+        }
+      ]
+    }).present();
+  }
 }

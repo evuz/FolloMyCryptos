@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { NavController, LoadingController } from 'ionic-angular';
 
+import { TabsPage } from './../tabs/tabs';
 import { SignupPage } from './../signup/signup';
 
 import { AuthService } from './../../services/auth';
@@ -40,7 +41,7 @@ export class SigninPage implements OnInit {
     this.authService.signinUser(email, password)
       .then(() => {
         loading.dismiss();
-        console.log('Success');
+        this.navCtrl.setRoot(TabsPage);
       })
       .catch((err) => {
         loading.dismiss();
