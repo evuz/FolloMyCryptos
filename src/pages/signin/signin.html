@@ -4,19 +4,28 @@
     <ion-icon name="analytics"
       color="primary"></ion-icon>
   </div>
-  <div class="inputs">
+  <form class="inputs"
+    [formGroup]="signinForm"
+    (ngSubmit)="onSubmit()">
     <ion-item color="light">
-      <ion-label floating>Username</ion-label>
-      <ion-input type="text"></ion-input>
+      <ion-label>Username</ion-label>
+      <ion-input type="text"
+        [formControlName]="'username'"></ion-input>
     </ion-item>
 
     <ion-item color="light">
-      <ion-label floating>Password</ion-label>
-      <ion-input type="password"></ion-input>
+      <ion-label>Password</ion-label>
+      <ion-input type="password"
+        [formControlName]="'password'"></ion-input>
+    </ion-item>
+
+    <ion-item color="light">
+      <ion-label>Remember password</ion-label>
+      <ion-toggle [formControlName]="'remember'"></ion-toggle>
     </ion-item>
 
     <button ion-button>Login</button>
-  </div>
+  </form>
   <div class="footer">
     <button ion-button
       clear

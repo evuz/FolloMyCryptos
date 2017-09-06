@@ -1,26 +1,30 @@
 <div class="component"
-padding>
-<div class="icon">
-  <ion-icon name="analytics"
-    color="primary"></ion-icon>
-</div>
-<div class="inputs">
-  <ion-item color="light">
-    <ion-label floating>Username</ion-label>
-    <ion-input type="text"></ion-input>
-  </ion-item>
+  padding>
+  <div class="icon">
+    <ion-icon name="analytics"
+      color="primary"></ion-icon>
+  </div>
+  <form class="inputs"
+    [formGroup]="signupForm"
+    (ngSubmit)="onSubmit()">
+    <ion-item color="light">
+      <ion-label>Username</ion-label>
+      <ion-input type="text"
+        [formControlName]="'username'"></ion-input>
+    </ion-item>
 
-  <ion-item color="light">
-    <ion-label floating>Password</ion-label>
-    <ion-input type="password"></ion-input>
-  </ion-item>
+    <ion-item color="light">
+      <ion-label>Password</ion-label>
+      <ion-input type="password"
+        [formControlName]="'password'"></ion-input>
+    </ion-item>
 
-  <button ion-button>Register</button>
-</div>
-<div class="footer">
-  <button ion-button
-    clear
-    small
-    (click)="goToLogin()">Sigin</button>
-</div>
+    <button ion-button>Register</button>
+  </form>
+  <div class="footer">
+    <button ion-button
+      clear
+      small
+      (click)="goToLogin()">Sigin</button>
+  </div>
 </div>
