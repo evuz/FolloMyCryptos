@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, LoadingController } from 'ionic-angular';
 
 import { SignupPage } from './../signup/signup';
+
+import { AuthService } from './../../services/auth';
 
 @Component({
   selector: 'page-signin',
@@ -12,15 +14,16 @@ export class SigninPage implements OnInit {
   signinForm: FormGroup;
 
   constructor(
-    public navCtrl: NavController,
-    public navParams: NavParams
+    private navCtrl: NavController,
+    private authService: AuthService,
+    private loadingCtrl: LoadingController
   ) { }
 
   ngOnInit() {
     this.signinForm = new FormGroup({
-      'username': new FormControl(),
-      'password': new FormControl(),
-      'remember': new FormControl()
+      'email': new FormControl(''),
+      'password': new FormControl(''),
+      'remember': new FormControl(false)
     });
   }
 
@@ -29,6 +32,19 @@ export class SigninPage implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.signinForm.value);
+    const { email, password } = this.signinForm.value;
+    const loading = this.loadingCtrl.create({
+      content: 'Please wait...'
+    });
+    loading.present();
+    this.authService.signinUser(email, password)
+      .then(() => {
+        loading.dismiss();
+        console.log('Success');
+      })
+      .catch((err) => {
+        loading.dismiss();
+        console.log(err)
+      });
   }
 }
