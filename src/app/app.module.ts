@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
+import { HttpModule } from '@angular/http';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
@@ -13,6 +14,7 @@ import { SigninPage } from './../pages/signin/signin';
 import { TabsPage } from './../pages/tabs/tabs';
 
 import { AuthService } from './../services/auth';
+import { CoinMarketService } from './../services/coinMarket';
 
 @NgModule({
   declarations: [
@@ -25,6 +27,7 @@ import { AuthService } from './../services/auth';
   ],
   imports: [
     BrowserModule,
+    HttpModule,
     ReactiveFormsModule,
     IonicModule.forRoot(MyApp)
   ],
@@ -41,7 +44,8 @@ import { AuthService } from './../services/auth';
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    AuthService
+    AuthService,
+    CoinMarketService
   ]
 })
 export class AppModule {}
