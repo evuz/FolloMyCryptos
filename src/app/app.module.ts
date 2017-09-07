@@ -8,7 +8,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 
 import { MyApp } from './app.component';
 import { CoinsPage } from './../pages/coins/coins';
-import { LibraryPage } from './../pages/library/library';
+import { PortfolioPage } from './../pages/portfolio/portfolio';
 import { SignupPage } from './../pages/signup/signup';
 import { SigninPage } from './../pages/signin/signin';
 import { TabsPage } from './../pages/tabs/tabs';
@@ -19,8 +19,8 @@ import { CoinMarketService } from './../services/coinMarket';
 @NgModule({
   declarations: [
     MyApp,
-    LibraryPage,
     CoinsPage,
+    PortfolioPage,
     SigninPage,
     SignupPage,
     TabsPage
@@ -34,8 +34,8 @@ import { CoinMarketService } from './../services/coinMarket';
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    LibraryPage,
     CoinsPage,
+    PortfolioPage,
     SigninPage,
     SignupPage,
     TabsPage
