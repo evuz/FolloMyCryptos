@@ -24,6 +24,11 @@ export class PortfolioPage implements OnInit {
 
   ngOnInit() {
     this.user = this.userService.getUser();
+    this.userService.userChanged
+      .subscribe((user: User) => {
+        this.user = user;
+        this.getTotalOperations();
+      });
     this.coinMarketService.fetchNames();
     this.getTotalOperations();
   }
