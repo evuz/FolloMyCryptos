@@ -1,13 +1,9 @@
 export class User {
-  constructor(
-    private username: string
-  ) { }
+  public email: string;
+  public operations: any[];
 
-  getUsername() {
-    return this.username;
-  }
-
-  setUsername(username: string) {
-    this.username = username;
+  constructor(user: any) {
+    this.email = user.email;
+    this.operations = user.operations;
   }
 }

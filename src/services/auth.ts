@@ -6,23 +6,37 @@ import { User } from './../models/user';
 
 @Injectable()
 export class AuthService {
-  userInitialized = false;
+  private userInitialized = false;
+  private user: User;
   userChanged = new Subject();
-  user: User;
 
   initListenerAuth() {
     firebase.auth().onAuthStateChanged((user) => {
       this.userInitialized = true;
       if (user) {
-        this.user = new User(user.email);
+        firebase.database().ref(`users/${user.email.replace('.', '_')}`)
+          .once('value')
+          .then((snapshot) => {
+            const user = snapshot.val();
+            if(!user.operations) user.operations = [];
+            this.user = new User(user);
+            this.userChanged.next(this.user);
+          });
+      } else {
+        this.userChanged.next(this.user);
       }
-      this.userChanged.next(this.user);
     });
   }
 
   signupUser(email: string, password: string) {
     return firebase.auth().createUserWithEmailAndPassword(email, password)
-      .then();
+      .then((user) => {
+        firebase.database().ref(`users/${user.email.replace('.', '_')}`).set({
+          email,
+          operations: []
+        });
+        return user;
+      });
   }
 
   signinUser(email: string, password: string) {
@@ -41,5 +55,9 @@ export class AuthService {
           });
       }
     });
+  }
+
+  getUser() {
+    return this.user;
   }
 }
