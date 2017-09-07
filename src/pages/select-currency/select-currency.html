@@ -1,0 +1,17 @@
+<ion-header>
+
+  <ion-navbar color="primary">
+    <ion-title color="light">Select Currency</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content>
+  <ion-searchbar (ionInput)="onSearch($event)"></ion-searchbar>
+  <ion-list [virtualScroll]="items">
+    <ion-item *virtualItem="let item"
+      (click)="onSelectItem(item)">
+      {{ item.name }}
+    </ion-item>
+  </ion-list>
+</ion-content>

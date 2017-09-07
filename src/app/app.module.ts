@@ -13,6 +13,7 @@ import { SignupPage } from './../pages/signup/signup';
 import { SigninPage } from './../pages/signin/signin';
 import { TabsPage } from './../pages/tabs/tabs';
 import { NewOperationPage } from './../pages/new-operation/new-operation';
+import { SelectCurrencyPage } from './../pages/select-currency/select-currency';
 
 import { AuthService } from './../services/auth';
 import { CoinMarketService } from './../services/coinMarket';
@@ -26,7 +27,8 @@ import { UserService } from './../services/user';
     SigninPage,
     SignupPage,
     TabsPage,
-    NewOperationPage
+    NewOperationPage,
+    SelectCurrencyPage
   ],
   imports: [
     BrowserModule,
@@ -42,7 +44,8 @@ import { UserService } from './../services/user';
     SigninPage,
     SignupPage,
     TabsPage,
-    NewOperationPage
+    NewOperationPage,
+    SelectCurrencyPage
   ],
   providers: [
     StatusBar,

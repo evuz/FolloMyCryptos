@@ -7,6 +7,7 @@ import 'rxjs/add/operator/catch';
 @Injectable()
 export class CoinMarketService {
   url = 'https://api.coinmarketcap.com/v1/';
+  private coinNames: { id: string, name: string }[];
 
   constructor(private http: Http) { }
 
@@ -27,5 +28,43 @@ export class CoinMarketService {
           }
         });
       })
+  }
+
+  fetchNames() {
+    if (!this.coinNames) {
+      this.http.get(`${this.url}ticker/`)
+        .map((res: Response) => {
+          return res.json();
+        })
+        .subscribe((data) => {
+          this.coinNames = data.map((el) => {
+            return {
+              id: el.id,
+              name: el.name
+            }
+          });
+        });
+    }
+  }
+
+  getCoinById(id: string) {
+    return this.http.get(`${this.url}ticker/${id}/`)
+      .map((res: Response) => {
+        return res.json();
+      })
+      .map((data) => {
+        return {
+          id: data[0].id,
+          symbol: data[0].symbol,
+          rank: data[0].rank,
+          name: data[0].name,
+          priceUSD: +data[0].price_usd,
+          isIncrease: +data[0].percent_change_1h > 0
+        }
+      });
+  }
+
+  getCoinNames() {
+    return this.coinNames;
   }
 }

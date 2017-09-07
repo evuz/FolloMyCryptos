@@ -1,7 +1,13 @@
-export class Operation  {
+export class Operation {
+  public amount: number;
+  public investment: number;
+
   constructor(
-    public currency: string,
-    public amount: number,
-    public investment: number
-  ) { }
+    public currency: { id: string, name: string },
+    amount: string,
+    investment: string
+  ) {
+    this.amount = +amount;
+    this.investment = +investment;
+  }
 }

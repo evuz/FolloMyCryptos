@@ -9,8 +9,9 @@
 
 <ion-content padding>
   <form ion-list
-  [formGroup]="operationForm">
-    <ion-item no-padding>
+    [formGroup]="operationForm">
+    <ion-item no-padding
+      (tap)="onCurrencyInput()">
       <ion-label color="primary"
         stacked>Currency</ion-label>
       <ion-input type="text"
