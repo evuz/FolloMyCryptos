@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import * as firebase from 'firebase';
 import { Subject } from 'rxjs/Subject';
 
 import { User } from './../models/user';
@@ -11,7 +12,7 @@ export class UserService {
   userChanged = new Subject();
 
   setUser(user) {
-    if(user) {
+    if (user) {
       this.user = new User(user);
     } else {
       this.user = undefined;
@@ -25,7 +26,9 @@ export class UserService {
   }
 
   newOperation(operation: Operation) {
-
+    this.user.addOperation(operation);
+    this.userChanged.next(this.user);
+    this.updateUser();
   }
 
   isUserInit() {
@@ -40,5 +43,10 @@ export class UserService {
           });
       }
     });
+  }
+
+  private updateUser() {
+    firebase.database().ref(`users/${this.user.email.replace('.', '_')}`)
+      .set(this.user);
   }
 }

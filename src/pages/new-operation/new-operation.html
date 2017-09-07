@@ -1,0 +1,48 @@
+<ion-header>
+
+  <ion-navbar color="primary">
+    <ion-title color="light">New operation</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <form ion-list
+  [formGroup]="operationForm">
+    <ion-item no-padding>
+      <ion-label color="primary"
+        stacked>Currency</ion-label>
+      <ion-input type="text"
+        placeholder="Currency"
+        [formControlName]="'currency'"></ion-input>
+    </ion-item>
+    <ion-grid no-padding>
+      <ion-row>
+        <ion-col>
+          <ion-item no-padding>
+            <ion-label color="primary"
+              stacked>Amount</ion-label>
+            <ion-input type="number"
+              placeholder="Amount"
+              [formControlName]="'amount'"></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col>
+          <ion-item no-padding>
+            <ion-label color="primary"
+              stacked>Quantity($)</ion-label>
+            <ion-input type="number"
+              placeholder="Quantity($)"
+              [formControlName]="'investment'"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <div class="buttons">
+      <button full
+        ion-button
+        (click)="onSubmit()">Add</button>
+    </div>
+  </form>
+</ion-content>

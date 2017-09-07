@@ -1,0 +1,13 @@
+page-new-operation {
+  form {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+
+    .buttons {
+      display: flex;
+      flex-grow: 1;
+      align-items: flex-end;
+    }
+  }
+}
