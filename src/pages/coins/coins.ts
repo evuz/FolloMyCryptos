@@ -27,12 +27,16 @@ export class CoinsPage implements OnInit {
     this.content.scrollToTop();
   }
 
+  doRefresh(refresher) {
+    this.getCoins(() => refresher.complete());
+  }
+
   doInfinite(infiniteScroll) {
     this.items = this.items.concat(this.nextItems.splice(0, this.delta));
     infiniteScroll.complete();
   }
 
-  private getCoins() {
+  private getCoins(cb?: Function) {
     const loading = this.loadingCtrl.create({
       content: 'Please wait...'
     });
@@ -42,6 +46,7 @@ export class CoinsPage implements OnInit {
         loading.dismiss();
         this.nextItems = res;
         this.items = this.nextItems.splice(0, 20);
+        if(cb) cb();
       });
   }
 }

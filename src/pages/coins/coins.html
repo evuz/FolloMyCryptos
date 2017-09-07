@@ -3,7 +3,8 @@
   <ion-navbar color="primary">
     <ion-title color="light">Coins</ion-title>
 
-    <ion-buttons end color="light">
+    <ion-buttons end
+      color="light">
       <button ion-button
         icon-only
         (click)="onRefresh()">
@@ -16,6 +17,10 @@
 
 
 <ion-content padding>
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
   <ion-list>
     <button ion-item
       *ngFor="let item of items"
