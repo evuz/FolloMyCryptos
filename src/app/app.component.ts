@@ -8,6 +8,7 @@ import { SigninPage } from '../pages/signin/signin';
 import { TabsPage } from './../pages/tabs/tabs';
 
 import { AuthService } from './../services/auth';
+import { UserService } from './../services/user';
 
 @Component({
   templateUrl: 'app.html'
@@ -19,7 +20,8 @@ export class MyApp {
     platform: Platform,
     statusBar: StatusBar,
     splashScreen: SplashScreen,
-    authService: AuthService
+    authService: AuthService,
+    userService: UserService
   ) {
     firebase.initializeApp({
       apiKey: "AIzaSyCizpJfAuIZ8Y7QoVx15zvWa5Q7bE6OEAM",
@@ -32,7 +34,7 @@ export class MyApp {
 
     authService.initListenerAuth();
 
-    Promise.all([authService.isUserInit(), platform.ready()])
+    Promise.all([userService.isUserInit(), platform.ready()])
       .then(([user]) => {
         if (user) {
           this.rootPage = TabsPage;

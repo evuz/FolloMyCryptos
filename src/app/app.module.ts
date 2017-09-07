@@ -12,9 +12,11 @@ import { PortfolioPage } from './../pages/portfolio/portfolio';
 import { SignupPage } from './../pages/signup/signup';
 import { SigninPage } from './../pages/signin/signin';
 import { TabsPage } from './../pages/tabs/tabs';
+import { NewOperationPage } from './../pages/new-operation/new-operation';
 
 import { AuthService } from './../services/auth';
 import { CoinMarketService } from './../services/coinMarket';
+import { UserService } from './../services/user';
 
 @NgModule({
   declarations: [
@@ -23,7 +25,8 @@ import { CoinMarketService } from './../services/coinMarket';
     PortfolioPage,
     SigninPage,
     SignupPage,
-    TabsPage
+    TabsPage,
+    NewOperationPage
   ],
   imports: [
     BrowserModule,
@@ -38,13 +41,15 @@ import { CoinMarketService } from './../services/coinMarket';
     PortfolioPage,
     SigninPage,
     SignupPage,
-    TabsPage
+    TabsPage,
+    NewOperationPage
   ],
   providers: [
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     AuthService,
+    UserService,
     CoinMarketService
   ]
 })
