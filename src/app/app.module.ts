@@ -7,7 +7,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 
 import { MyApp } from './app.component';
-import { WorldPage } from './../pages/world/world';
+import { CoinsPage } from './../pages/coins/coins';
 import { LibraryPage } from './../pages/library/library';
 import { SignupPage } from './../pages/signup/signup';
 import { SigninPage } from './../pages/signin/signin';
@@ -20,7 +20,7 @@ import { CoinMarketService } from './../services/coinMarket';
   declarations: [
     MyApp,
     LibraryPage,
-    WorldPage,
+    CoinsPage,
     SigninPage,
     SignupPage,
     TabsPage
@@ -35,7 +35,7 @@ import { CoinMarketService } from './../services/coinMarket';
   entryComponents: [
     MyApp,
     LibraryPage,
-    WorldPage,
+    CoinsPage,
     SigninPage,
     SignupPage,
     TabsPage

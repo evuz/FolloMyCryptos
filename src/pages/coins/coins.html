@@ -1,0 +1,43 @@
+<ion-header>
+
+  <ion-navbar color="primary">
+    <ion-title color="light">Coins</ion-title>
+
+    <ion-buttons end color="light">
+      <button ion-button
+        icon-only
+        (click)="onRefresh()">
+          <ion-icon name="refresh"></ion-icon>
+        </button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-list>
+    <button ion-item
+      *ngFor="let item of items"
+      no-padding>
+      <h2 float-start>{{ item.name }}</h2>
+      <p float-end>
+        {{ item.priceUSD.toFixed(4) }}$
+      </p>
+      <ion-icon name="arrow-up"
+        item-end
+        color="increase"
+        class="trending"
+        *ngIf="item.isIncrease"></ion-icon>
+      <ion-icon name="arrow-down"
+        item-end
+        color="decrease"
+        class="trending"
+        *ngIf="!item.isIncrease"></ion-icon>
+    </button>
+  </ion-list>
+
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>

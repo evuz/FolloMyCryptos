@@ -18,8 +18,12 @@ export class CoinMarketService {
       .map((data) => {
         return data.map((el) => {
           return {
+            id: el.id,
+            symbol: el.symbol,
+            rank: el.rank,
             name: el.name,
-            priceUSD: el.price_usd
+            priceUSD: +el.price_usd,
+            isIncrease: +el.percent_change_1h > 0
           }
         });
       })
