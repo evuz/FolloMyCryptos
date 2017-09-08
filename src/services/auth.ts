@@ -41,4 +41,8 @@ export class AuthService {
   signinUser(email: string, password: string) {
     return firebase.auth().signInWithEmailAndPassword(email, password);
   }
+
+  logOut () {
+    firebase.auth().signOut();
+  }
 }

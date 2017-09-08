@@ -27,13 +27,16 @@ export class UserService {
 
   newOperation(operation: Operation) {
     this.user.addOperation(operation);
-    this.userChanged.next(this.user);
     this.updateUser();
   }
 
   deleteOperation(operation: Operation) {
     this.user.deleteOperation(operation);
-    this.userChanged.next(this.user);
+    this.updateUser();
+  }
+
+  updateOperation(operation: Operation) {
+    this.user.updateOperation(operation);
     this.updateUser();
   }
 
@@ -52,6 +55,7 @@ export class UserService {
   }
 
   private updateUser() {
+    this.userChanged.next(this.user);
     firebase.database().ref(`users/${this.user.email.replace('.', '_')}`)
       .set(this.user);
   }

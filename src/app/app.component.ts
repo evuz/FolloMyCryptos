@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { Platform } from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { Platform, Nav } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import * as firebase from 'firebase';
@@ -14,6 +14,7 @@ import { UserService } from './../services/user';
   templateUrl: 'app.html'
 })
 export class MyApp {
+  @ViewChild(Nav) nav: Nav;
   rootPage: any;
 
   constructor(
@@ -33,6 +34,12 @@ export class MyApp {
     });
 
     authService.initListenerAuth();
+
+    userService.userChanged.subscribe((user) => {
+      if (!user) {
+        this.nav.setRoot(SigninPage);
+      }
+    });
 
     Promise.all([userService.isUserInit(), platform.ready()])
       .then(([user]) => {

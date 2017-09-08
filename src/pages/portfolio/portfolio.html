@@ -9,6 +9,11 @@
         (click)="goToNewOperation()">
         <ion-icon name="add"></ion-icon>
       </button>
+      <button ion-button
+        icon-only
+        (click)="onLogOut()">
+      <ion-icon name="log-out"></ion-icon>
+    </button>
     </ion-buttons>
   </ion-navbar>
 
@@ -39,7 +44,7 @@
       My operations
     </ion-card-header>
     <ion-list>
-      <ion-item-sliding *ngFor="let operation of user.operations; let i = index">
+      <ion-item-sliding *ngFor="let operation of user?.operations; let i = index">
         <ion-item>
           <h2 float-start>{{ operation.currency.name }}</h2>
           <p float-end
@@ -49,7 +54,8 @@
         </ion-item>
         <ion-item-options side="right">
           <button ion-button
-            color="primary">
+            color="primary"
+            (click)="onEditOperation(operation)">
             <ion-icon name="create"></ion-icon>
             Edit
           </button>

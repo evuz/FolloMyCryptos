@@ -35,4 +35,13 @@ export class User {
       this.operations.splice(index, 1);
     }
   }
+
+  updateOperation(operation: Operation) {
+    const index = this.operations.findIndex((operationEl) => {
+      return operationEl.currency.id === operation.currency.id;
+    });
+    if(index > -1) {
+      this.operations[index] = operation;
+    }
+  }
 }

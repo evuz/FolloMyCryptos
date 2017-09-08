@@ -4,6 +4,7 @@ import { NavController } from 'ionic-angular';
 
 import { NewOperationPage } from './../new-operation/new-operation';
 
+import { AuthService } from './../../services/auth';
 import { UserService } from './../../services/user';
 import { CoinMarketService } from './../../services/coinMarket';
 
@@ -21,6 +22,7 @@ export class PortfolioPage implements OnInit {
   constructor(
     private navCtrl: NavController,
     private coinMarketService: CoinMarketService,
+    private authService: AuthService,
     private userService: UserService
   ) { }
 
@@ -28,11 +30,15 @@ export class PortfolioPage implements OnInit {
     this.user = this.userService.getUser();
     this.userService.userChanged
       .subscribe((user: User) => {
-        this.user = user;
-        this.getTotalOperations();
+        if (user) {
+          this.user = user;
+          this.getTotalOperations();
+        }
       });
     this.coinMarketService.fetchNames();
-    this.getTotalOperations();
+    if (this.user) {
+      this.getTotalOperations();
+    }
   }
 
   goToNewOperation() {
@@ -64,5 +70,13 @@ export class PortfolioPage implements OnInit {
 
   onDeleteOperation(operation: Operation) {
     this.userService.deleteOperation(operation);
+  }
+
+  onEditOperation(operation: Operation) {
+    this.navCtrl.push(NewOperationPage, { operation });
+  }
+
+  onLogOut() {
+    this.authService.logOut();
   }
 }
