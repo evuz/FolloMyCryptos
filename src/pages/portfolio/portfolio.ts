@@ -1,6 +1,6 @@
 import { Operation } from './../../models/operation';
 import { Component, OnInit } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, LoadingController, Loading } from 'ionic-angular';
 
 import { NewOperationPage } from './../new-operation/new-operation';
 
@@ -15,29 +15,35 @@ import { User } from './../../models/user';
   templateUrl: 'portfolio.html',
 })
 export class PortfolioPage implements OnInit {
+  fetching: string;
+  loading: Loading;
   user: User;
   coinsValue: any[] = [];
   total: { total: number, profit: number };
 
   constructor(
     private navCtrl: NavController,
+    private loadingCtrl: LoadingController,
     private coinMarketService: CoinMarketService,
     private authService: AuthService,
     private userService: UserService
   ) { }
 
   ngOnInit() {
+    this.loading = this.loadingCtrl.create({
+      content: 'Please wait...'
+    });
     this.user = this.userService.getUser();
     this.userService.userChanged
       .subscribe((user: User) => {
         if (user) {
           this.user = user;
-          this.getTotalOperations();
+          this.getOperationsValue();
         }
       });
     this.coinMarketService.fetchNames();
     if (this.user) {
-      this.getTotalOperations();
+      this.getOperationsValue();
     }
   }
 
@@ -45,7 +51,8 @@ export class PortfolioPage implements OnInit {
     this.navCtrl.push(NewOperationPage);
   }
 
-  private getTotalOperations() {
+  private getOperationsValue(cb?) {
+    this.fetching = 'fetch';
     const { operations } = this.user;
     const request = operations.map((operation) => {
       return new Promise((res, rej) => {
@@ -65,6 +72,8 @@ export class PortfolioPage implements OnInit {
           }
         }, { profit: 0, total: 0 });
         this.coinsValue = coins;
+        if(cb) cb();
+        if (this.fetching === 'loading') this.loading.dismiss();
       })
   }
 
@@ -78,5 +87,16 @@ export class PortfolioPage implements OnInit {
 
   onLogOut() {
     this.authService.logOut();
+  }
+
+  doRefresh(refresher) {
+    this.getOperationsValue(() => refresher.complete());
+  }
+
+  ionViewDidEnter() {
+    if (this.fetching === 'fetching') {
+      this.fetching = 'loading';
+      this.loading.present();
+    }
   }
 }
