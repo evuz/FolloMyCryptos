@@ -31,6 +31,12 @@ export class UserService {
     this.updateUser();
   }
 
+  deleteOperation(operation: Operation) {
+    this.user.deleteOperation(operation);
+    this.userChanged.next(this.user);
+    this.updateUser();
+  }
+
   isUserInit() {
     return new Promise((res, rej) => {
       if (this.userInitialized) {

@@ -34,4 +34,34 @@
     </ion-card-content>
   </ion-card>
 
+  <ion-card>
+    <ion-card-header>
+      My operations
+    </ion-card-header>
+    <ion-list>
+      <ion-item-sliding *ngFor="let operation of user.operations; let i = index">
+        <ion-item>
+          <h2 float-start>{{ operation.currency.name }}</h2>
+          <p float-end
+            *ngIf="coinsValue[i]">
+            {{ operation.amount * coinsValue[i].priceUSD | number:'1.0-0' }}$
+          </p>
+        </ion-item>
+        <ion-item-options side="right">
+          <button ion-button
+            color="primary">
+            <ion-icon name="create"></ion-icon>
+            Edit
+          </button>
+          <button ion-button
+            color="danger"
+            (click)="onDeleteOperation(operation)">
+            <ion-icon name="trash"></ion-icon>
+            Delete
+          </button>
+        </ion-item-options>
+      </ion-item-sliding>
+    </ion-list>
+  </ion-card>
+
 </ion-content>

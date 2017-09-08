@@ -17,14 +17,22 @@ export class User {
 
   addOperation(operation: Operation) {
     const index = this.operations.findIndex((operationEl) => {
-      return operationEl.currency.id == operation.currency.id;
+      return operationEl.currency.id === operation.currency.id;
     });
-    console.log(this.operations);
     if (index > -1) {
       this.operations[index].investment += operation.investment;
       this.operations[index].amount += operation.amount;
     } else {
       this.operations.push(operation);
+    }
+  }
+
+  deleteOperation(operation: Operation) {
+    const index = this.operations.findIndex((operationEl) => {
+      return operationEl.currency.id === operation.currency.id;
+    });
+    if(index > -1) {
+      this.operations.splice(index, 1);
     }
   }
 }

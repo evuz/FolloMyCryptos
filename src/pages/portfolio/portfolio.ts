@@ -1,3 +1,4 @@
+import { Operation } from './../../models/operation';
 import { Component, OnInit } from '@angular/core';
 import { NavController } from 'ionic-angular';
 
@@ -14,6 +15,7 @@ import { User } from './../../models/user';
 })
 export class PortfolioPage implements OnInit {
   user: User;
+  coinsValue: any[] = [];
   total: { total: number, profit: number };
 
   constructor(
@@ -56,6 +58,11 @@ export class PortfolioPage implements OnInit {
             profit
           }
         }, { profit: 0, total: 0 });
+        this.coinsValue = coins;
       })
+  }
+
+  onDeleteOperation(operation: Operation) {
+    this.userService.deleteOperation(operation);
   }
 }
