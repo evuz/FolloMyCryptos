@@ -21,9 +21,9 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
-  <ion-list>
+  <ion-list [virtualScroll]="items">
     <button ion-item
-      *ngFor="let item of items"
+      *virtualItem="let item"
       no-padding>
       <h2 float-start>{{ item.name }}</h2>
       <p float-end>
@@ -41,8 +41,4 @@
         *ngIf="!item.isIncrease"></ion-icon>
     </button>
   </ion-list>
-
-  <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
-    <ion-infinite-scroll-content></ion-infinite-scroll-content>
-  </ion-infinite-scroll>
 </ion-content>

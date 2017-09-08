@@ -9,9 +9,7 @@ import { CoinMarketService } from './../../services/coinMarket';
 })
 export class CoinsPage implements OnInit {
   @ViewChild(Content) content: Content;
-  private delta = 20;
-  items: any[];
-  nextItems: any[];
+  items: any[] = [];
 
   constructor(
     private coinMarketService: CoinMarketService,
@@ -31,11 +29,6 @@ export class CoinsPage implements OnInit {
     this.getCoins(() => refresher.complete());
   }
 
-  doInfinite(infiniteScroll) {
-    this.items = this.items.concat(this.nextItems.splice(0, this.delta));
-    infiniteScroll.complete();
-  }
-
   private getCoins(cb?: Function) {
     const loading = this.loadingCtrl.create({
       content: 'Please wait...'
@@ -44,8 +37,7 @@ export class CoinsPage implements OnInit {
     this.coinMarketService.getCoins()
       .subscribe((res) => {
         loading.dismiss();
-        this.nextItems = res;
-        this.items = this.nextItems.splice(0, 20);
+        this.items = res;
         if(cb) cb();
       });
   }
