@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NavController, LoadingController } from 'ionic-angular';
 
 import { TabsPage } from './../tabs/tabs';
@@ -21,10 +21,16 @@ export class SigninPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    const userRemembered = JSON.parse(localStorage.getItem('userRemember'));
     this.signinForm = new FormGroup({
-      'email': new FormControl(''),
-      'password': new FormControl(''),
-      'remember': new FormControl(false)
+      'email': new FormControl(
+        userRemembered ? userRemembered.email : null,
+        Validators.required),
+      'password': new FormControl(
+        userRemembered ? userRemembered.password : null,
+        Validators.required
+      ),
+      'remember': new FormControl(userRemembered ? true : false)
     });
   }
 
@@ -33,19 +39,29 @@ export class SigninPage implements OnInit {
   }
 
   onSubmit() {
-    const { email, password } = this.signinForm.value;
-    const loading = this.loadingCtrl.create({
-      content: 'Please wait...'
-    });
-    loading.present();
-    this.authService.signinUser(email, password)
-      .then(() => {
-        loading.dismiss();
-        this.navCtrl.setRoot(TabsPage);
-      })
-      .catch((err) => {
-        loading.dismiss();
-        console.log(err)
+    if (this.signinForm.valid) {
+      const { email, password, remember } = this.signinForm.value;
+      if (remember) {
+        localStorage.setItem(
+          'userRemember',
+          JSON.stringify({ email, password })
+        );
+      } else {
+        localStorage.removeItem('userRemember');
+      }
+      const loading = this.loadingCtrl.create({
+        content: 'Please wait...'
       });
+      loading.present();
+      this.authService.signinUser(email, password)
+        .then(() => {
+          loading.dismiss();
+          this.navCtrl.setRoot(TabsPage);
+        })
+        .catch((err) => {
+          loading.dismiss();
+          console.log(err)
+        });
+    }
   }
 }
