@@ -27,7 +27,7 @@
       no-padding>
       <h2 float-start>{{ item.name }}</h2>
       <p float-end>
-        {{ item.priceUSD.toFixed(4) }}$
+        {{ item.priceUSD | number:'1.1-4' }}$
       </p>
       <ion-icon name="arrow-up"
         item-end
