@@ -42,7 +42,7 @@
     <div class="buttons">
       <button full
         ion-button
-        (click)="onSubmit()">Add</button>
+        (click)="onSubmit()">{{ editMode ? 'Edit' : 'Add' }}</button>
     </div>
   </form>
 </ion-content>
