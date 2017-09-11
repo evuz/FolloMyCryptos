@@ -16,6 +16,7 @@ import { User } from './../../models/user';
 })
 export class PortfolioPage implements OnInit {
   fetching: string;
+  pageActive: boolean;
   loading: Loading;
   user: User;
   coinsValue: any[] = [];
@@ -30,9 +31,6 @@ export class PortfolioPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.loading = this.loadingCtrl.create({
-      content: 'Please wait...'
-    });
     this.user = this.userService.getUser();
     this.userService.userChanged
       .subscribe((user: User) => {
@@ -52,7 +50,11 @@ export class PortfolioPage implements OnInit {
   }
 
   private getOperationsValue(cb?) {
-    this.fetching = 'fetch';
+    if (this.pageActive && !this.fetching) {
+      this.showLoading();
+    } else {
+      this.fetching = 'fetching';
+    }
     const { operations } = this.user;
     const request = operations.map((operation) => {
       return new Promise((res, rej) => {
@@ -72,8 +74,11 @@ export class PortfolioPage implements OnInit {
           }
         }, { profit: 0, total: 0 });
         this.coinsValue = coins;
-        if(cb) cb();
-        if (this.fetching === 'loading') this.loading.dismiss();
+        if (cb) cb();
+        if (this.fetching === 'loading') {
+          this.loading.dismiss();
+        }
+        this.fetching = undefined;
       })
   }
 
@@ -93,10 +98,22 @@ export class PortfolioPage implements OnInit {
     this.getOperationsValue(() => refresher.complete());
   }
 
+  showLoading() {
+    this.loading = this.loadingCtrl.create({
+      content: 'Please wait...'
+    });
+    this.fetching = 'loading';
+    this.loading.present();
+  }
+
   ionViewDidEnter() {
+    this.pageActive = true;
     if (this.fetching === 'fetching') {
-      this.fetching = 'loading';
-      this.loading.present();
+      this.showLoading();
     }
+  }
+
+  ionViewWillLeave() {
+    this.pageActive = false;
   }
 }
