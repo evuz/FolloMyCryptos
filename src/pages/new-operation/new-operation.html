@@ -19,8 +19,17 @@
     </ion-item>
     <ion-grid no-padding>
       <ion-row>
-        <ion-col>
+        <ion-col col-5>
           <ion-item no-padding>
+            <ion-label color="primary"
+              stacked>Quantity({{ fiat.text }})</ion-label>
+            <ion-input type="number"
+              placeholder="Quantity($)"
+              [formControlName]="'investment'"></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col col-5>
+          <ion-item>
             <ion-label color="primary"
               stacked>Amount</ion-label>
             <ion-input type="number"
@@ -28,13 +37,14 @@
               [formControlName]="'amount'"></ion-input>
           </ion-item>
         </ion-col>
-        <ion-col>
-          <ion-item no-padding>
+        <ion-col col-2>
+          <ion-item>
             <ion-label color="primary"
-              stacked>Quantity($)</ion-label>
-            <ion-input type="number"
-              placeholder="Quantity($)"
-              [formControlName]="'investment'"></ion-input>
+              stacked>FIAT</ion-label>
+            <ion-select interface="popover" [formControlName]="'fiat'" #fiat>
+              <ion-option value="usd">$</ion-option>
+              <ion-option value="eur">€</ion-option>
+            </ion-select>
           </ion-item>
         </ion-col>
       </ion-row>

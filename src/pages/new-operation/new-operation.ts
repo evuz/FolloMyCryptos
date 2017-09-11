@@ -5,6 +5,7 @@ import { ModalController, NavController, NavParams } from 'ionic-angular';
 
 import { SelectCurrencyPage } from './../select-currency/select-currency';
 
+import { CoinConvertService } from './../../services/coinConvert';
 import { UserService } from './../../services/user';
 
 import { Operation } from './../../models/operation';
@@ -21,6 +22,7 @@ export class NewOperationPage implements OnInit {
   constructor(
     private navCtrl: NavController,
     private navParams: NavParams,
+    private coinConvertService: CoinConvertService,
     private userService: UserService,
     private modalCtrl: ModalController
   ) { }
@@ -28,7 +30,7 @@ export class NewOperationPage implements OnInit {
   ngOnInit() {
     const operation = this.navParams.get('operation');
     this.editMode = operation ? true : false;
-    if(this.editMode) {
+    if (this.editMode) {
       this.currency = operation.currency;
     }
     this.operationForm = new FormGroup({
@@ -43,15 +45,21 @@ export class NewOperationPage implements OnInit {
       'investment': new FormControl(
         this.editMode ? operation.investment : null,
         Validators.required
-      )
+      ),
+      'fiat': new FormControl(
+        this.editMode ? operation.fiat : 'usd',
+        Validators.required
+      ),
     });
   }
 
-  onSubmit() {
+  async onSubmit() {
     if (this.operationForm.valid && this.currency) {
-      const { amount, investment } = this.operationForm.value;
-      const operation = new Operation(this.currency, amount, investment);
-      if(this.editMode) {
+      const { amount, investment, fiat } = this.operationForm.value;
+      const conversion = fiat !== 'usd' ?
+        await this.coinConvertService.getConversion() : undefined;
+      const operation = new Operation(this.currency, amount, conversion ? investment / conversion : investment);
+      if (this.editMode) {
         this.userService.updateOperation(operation);
       } else {
         this.userService.newOperation(operation);

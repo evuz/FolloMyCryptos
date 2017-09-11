@@ -18,6 +18,7 @@ import { SelectCurrencyPage } from './../pages/select-currency/select-currency';
 import { AuthService } from './../services/auth';
 import { CoinMarketService } from './../services/coinMarket';
 import { UserService } from './../services/user';
+import { CoinConvertService } from './../services/coinConvert';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ import { UserService } from './../services/user';
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     AuthService,
     UserService,
-    CoinMarketService
+    CoinMarketService,
+    CoinConvertService
   ]
 })
 export class AppModule {}
