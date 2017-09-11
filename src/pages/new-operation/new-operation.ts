@@ -43,11 +43,11 @@ export class NewOperationPage implements OnInit {
         Validators.required
       ),
       'investment': new FormControl(
-        this.editMode ? operation.investment : null,
+        this.editMode ? operation.investment.toFixed(2) : null,
         Validators.required
       ),
       'fiat': new FormControl(
-        this.editMode ? operation.fiat : 'usd',
+        'usd',
         Validators.required
       ),
     });
