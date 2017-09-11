@@ -6,11 +6,6 @@
       color="light">
       <button ion-button
         icon-only
-        (click)="goToNewOperation()">
-        <ion-icon name="add"></ion-icon>
-      </button>
-      <button ion-button
-        icon-only
         (click)="onLogOut()">
       <ion-icon name="log-out"></ion-icon>
     </button>
@@ -73,5 +68,14 @@
       </ion-item-sliding>
     </ion-list>
   </ion-card>
+
+  <ion-fab right
+    bottom>
+    <button ion-fab
+      mini
+      (click)="goToNewOperation()">
+      <ion-icon name="add"></ion-icon>
+    </button>
+  </ion-fab>
 
 </ion-content>
