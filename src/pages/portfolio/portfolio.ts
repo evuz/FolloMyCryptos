@@ -38,7 +38,8 @@ export class PortfolioPage implements OnInit {
 
   ngOnInit() {
     this.user = this.userService.getUser();
-    this.moneyValue = this.settingsService.getSettings().investmentCurrency;
+    const settings = this.settingsService.getSettings();
+    this.moneyValue = settings ? settings.investmentCurrency : undefined;
     this.initSubscribes();
     this.coinMarketService.fetchNames();
     if (this.user) {
@@ -50,6 +51,7 @@ export class PortfolioPage implements OnInit {
     this.userService.userChanged
       .subscribe((user: User) => {
         if (user) {
+          if(!this.moneyValue) this.moneyValue = this.settingsService.getSettings().investmentCurrency;
           this.user = user;
           this.getOperationsValue();
         }
