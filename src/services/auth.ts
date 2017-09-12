@@ -2,13 +2,15 @@ import { Injectable } from '@angular/core';
 import * as firebase from 'firebase';
 
 import { UserService } from './../services/user';
+import { SettingsService } from './settings';
 
 @Injectable()
 export class AuthService {
 
 
   constructor(
-    private userService: UserService
+    private userService: UserService,
+    private settingsService: SettingsService
   ) { }
 
   initListenerAuth() {
@@ -19,6 +21,7 @@ export class AuthService {
           .then((snapshot) => {
             const user = snapshot.val();
             if(!user.operations) user.operations = [];
+            this.settingsService.setSettings(user.settings);
             this.userService.setUser(user);
           });
       } else {

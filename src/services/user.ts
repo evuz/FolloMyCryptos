@@ -4,6 +4,7 @@ import { Subject } from 'rxjs/Subject';
 
 import { User } from './../models/user';
 import { Operation } from './../models/operation';
+import { Settings } from './../models/settings';
 
 @Injectable()
 export class UserService {
@@ -38,6 +39,11 @@ export class UserService {
   updateOperation(operation: Operation) {
     this.user.updateOperation(operation);
     this.updateUser();
+  }
+
+  updateSettings(settings: Settings) {
+    firebase.database().ref(`users/${this.user.email.replace('.', '_')}`)
+      .set(Object.assign({}, this.user, { settings }));
   }
 
   isUserInit() {
