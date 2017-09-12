@@ -23,7 +23,7 @@ export class CoinMarketService {
             symbol: el.symbol,
             rank: el.rank,
             name: el.name,
-            priceUSD: +el.price_usd,
+            price: +el.price_usd,
             isIncrease: +el.percent_change_1h > 0
           }
         });
@@ -58,7 +58,7 @@ export class CoinMarketService {
           symbol: data[0].symbol,
           rank: data[0].rank,
           name: data[0].name,
-          priceUSD: +data[0].price_usd,
+          price: +data[0].price_usd,
           isIncrease: +data[0].percent_change_1h > 0
         }
       });
