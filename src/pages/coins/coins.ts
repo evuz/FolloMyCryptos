@@ -1,16 +1,18 @@
-import { SettingsService } from './../../services/settings';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { LoadingController, Content } from 'ionic-angular';
+import { Subscription } from 'rxjs/Subscription';
 
 import { CoinMarketService } from './../../services/coinMarket';
 import { CoinConvertService } from './../../services/coinConvert';
+import { SettingsService } from './../../services/settings';
 
 @Component({
   selector: 'page-coins',
   templateUrl: 'coins.html',
 })
-export class CoinsPage implements OnInit {
+export class CoinsPage implements OnInit, OnDestroy {
   @ViewChild(Content) content: Content;
+  settingsSubscription: Subscription;
   moneyValue: string;
   items: any[] = [];
 
@@ -23,7 +25,7 @@ export class CoinsPage implements OnInit {
 
   ngOnInit() {
     this.moneyValue = this.settingsService.getSettings().valueCurrency;
-    this.settingsService.settingsChanged
+    this.settingsSubscription = this.settingsService.settingsChanged
       .subscribe(async (settings) => {
         if (this.moneyValue != settings.valueCurrency) {
           this.moneyValue = settings.valueCurrency;
@@ -37,6 +39,10 @@ export class CoinsPage implements OnInit {
         }
       })
     this.getCoins();
+  }
+
+  ngOnDestroy() {
+    this.settingsSubscription.unsubscribe();
   }
 
   onRefresh() {

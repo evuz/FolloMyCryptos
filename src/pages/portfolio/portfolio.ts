@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NavController, LoadingController, Loading } from 'ionic-angular';
+import { Subscription } from 'rxjs/Subscription';
 
 import { SettingsPage } from './../settings/settings';
 import { NewOperationPage } from './../new-operation/new-operation';
@@ -18,6 +19,8 @@ import { Operation } from './../../models/operation';
   templateUrl: 'portfolio.html',
 })
 export class PortfolioPage implements OnInit {
+  userSubscription: Subscription;
+  settingsSubscription: Subscription;
   moneyValue: string;
   fetching: string;
   pageActive: boolean;
@@ -47,8 +50,13 @@ export class PortfolioPage implements OnInit {
     }
   }
 
+  ngOnDestroy() {
+    this.userSubscription.unsubscribe();
+    this.settingsSubscription.unsubscribe();
+  }
+
   initSubscribes() {
-    this.userService.userChanged
+    this.userSubscription = this.userService.userChanged
       .subscribe((user: User) => {
         if (user) {
           if(!this.moneyValue) this.moneyValue = this.settingsService.getSettings().investmentCurrency;
@@ -56,7 +64,7 @@ export class PortfolioPage implements OnInit {
           this.getOperationsValue();
         }
       });
-    this.settingsService.settingsChanged
+      this.settingsSubscription = this.settingsService.settingsChanged
       .subscribe(async (settings) => {
         if (this.moneyValue !== settings.investmentCurrency) {
           this.moneyValue = settings.investmentCurrency;
