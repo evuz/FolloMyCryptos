@@ -18,7 +18,7 @@ import { Operation } from './../../models/operation';
   selector: 'page-portfolio',
   templateUrl: 'portfolio.html',
 })
-export class PortfolioPage implements OnInit {
+export class PortfolioPage implements OnInit, OnDestroy {
   userSubscription: Subscription;
   settingsSubscription: Subscription;
   moneyValue: string;
