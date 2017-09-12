@@ -11,6 +11,7 @@ import { CoinsPage } from './../pages/coins/coins';
 import { PortfolioPage } from './../pages/portfolio/portfolio';
 import { SignupPage } from './../pages/signup/signup';
 import { SigninPage } from './../pages/signin/signin';
+import { SettingsPage } from './../pages/settings/settings';
 import { TabsPage } from './../pages/tabs/tabs';
 import { NewOperationPage } from './../pages/new-operation/new-operation';
 import { SelectCurrencyPage } from './../pages/select-currency/select-currency';
@@ -18,7 +19,10 @@ import { SelectCurrencyPage } from './../pages/select-currency/select-currency';
 import { AuthService } from './../services/auth';
 import { CoinMarketService } from './../services/coinMarket';
 import { UserService } from './../services/user';
+import { SettingsService } from './../services/settings';
 import { CoinConvertService } from './../services/coinConvert';
+
+import { MoneySymbolPipe } from './../pipe/moneySymbol';
 
 @NgModule({
   declarations: [
@@ -29,7 +33,9 @@ import { CoinConvertService } from './../services/coinConvert';
     SignupPage,
     TabsPage,
     NewOperationPage,
-    SelectCurrencyPage
+    SelectCurrencyPage,
+    SettingsPage,
+    MoneySymbolPipe
   ],
   imports: [
     BrowserModule,
@@ -46,16 +52,18 @@ import { CoinConvertService } from './../services/coinConvert';
     SignupPage,
     TabsPage,
     NewOperationPage,
-    SelectCurrencyPage
+    SelectCurrencyPage,
+    SettingsPage
   ],
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    { provide: ErrorHandler, useClass: IonicErrorHandler },
     AuthService,
     UserService,
     CoinMarketService,
-    CoinConvertService
+    CoinConvertService,
+    SettingsService
   ]
 })
-export class AppModule {}
+export class AppModule { }
