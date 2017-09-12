@@ -1,0 +1,41 @@
+<ion-header>
+
+  <ion-navbar color="primary">
+    <ion-title color="light">Settings</ion-title>
+    <ion-buttons end
+      color="light">
+      <button ion-button
+        icon-only
+        (click)="onSave()"
+        [disabled]="!settingsForm.dirty">
+        <ion-icon name="checkmark"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+  <form ion-list
+    [formGroup]="settingsForm">
+    <ion-item>
+      <ion-label>Investment Currency</ion-label>
+      <ion-select interface="popover"
+        [formControlName]="'investmentCurrency'">
+        <ion-option value="usd">$</ion-option>
+        <ion-option value="eur">€</ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label>Value Currency</ion-label>
+      <ion-select interface="popover"
+        [formControlName]="'valueCurrency'">
+        <ion-option value="usd">$</ion-option>
+        <ion-option value="eur">€</ion-option>
+      </ion-select>
+    </ion-item>
+  </form>
+
+</ion-content>
