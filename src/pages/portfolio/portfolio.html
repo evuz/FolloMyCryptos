@@ -6,9 +6,14 @@
       color="light">
       <button ion-button
         icon-only
+        (click)="goToSettings()">
+        <ion-icon name="settings"></ion-icon>
+      </button>
+      <button ion-button
+        icon-only
         (click)="onLogOut()">
-      <ion-icon name="log-out"></ion-icon>
-    </button>
+        <ion-icon name="log-out"></ion-icon>
+      </button>
     </ion-buttons>
   </ion-navbar>
 
@@ -27,11 +32,11 @@
         <ion-row>
           <ion-col>
             <span>Total portfolio</span>
-            <p class="total">{{ total?.total | number:'1.0-0' }}$</p>
+            <p class="total">{{ total?.total | number:'1.0-0' }}{{ moneyValue | symbol }}</p>
           </ion-col>
           <ion-col>
             <span>Profit</span>
-            <p class="profit">{{ total?.profit | number:'1.0-0' }}$</p>
+            <p class="profit">{{ total?.profit | number:'1.0-0' }}{{ moneyValue | symbol }}</p>
           </ion-col>
         </ion-row>
       </ion-grid>
@@ -48,7 +53,7 @@
           <h2 float-start>{{ operation.currency.name }}</h2>
           <p float-end
             *ngIf="coinsValue[i]">
-            {{ operation.amount * coinsValue[i].priceUSD | number:'1.0-0' }}$
+            {{ operation.amount * coinsValue[i].price | number:'1.0-0' }}{{ moneyValue | symbol }}
           </p>
         </ion-item>
         <ion-item-options side="right">

@@ -2,10 +2,12 @@ import { Operation } from './../../models/operation';
 import { Component, OnInit } from '@angular/core';
 import { NavController, LoadingController, Loading } from 'ionic-angular';
 
+import { SettingsPage } from './../settings/settings';
 import { NewOperationPage } from './../new-operation/new-operation';
 
 import { AuthService } from './../../services/auth';
 import { UserService } from './../../services/user';
+import { SettingsService } from './../../services/settings';
 import { CoinMarketService } from './../../services/coinMarket';
 
 import { User } from './../../models/user';
@@ -15,6 +17,7 @@ import { User } from './../../models/user';
   templateUrl: 'portfolio.html',
 })
 export class PortfolioPage implements OnInit {
+  moneyValue: string;
   fetching: string;
   pageActive: boolean;
   loading: Loading;
@@ -27,11 +30,21 @@ export class PortfolioPage implements OnInit {
     private loadingCtrl: LoadingController,
     private coinMarketService: CoinMarketService,
     private authService: AuthService,
-    private userService: UserService
+    private userService: UserService,
+    private settingsService: SettingsService
   ) { }
 
   ngOnInit() {
     this.user = this.userService.getUser();
+    this.moneyValue = this.settingsService.getSettings().investmentCurrency;
+    this.initSubscribes();
+    this.coinMarketService.fetchNames();
+    if (this.user) {
+      this.getOperationsValue();
+    }
+  }
+
+  initSubscribes() {
     this.userService.userChanged
       .subscribe((user: User) => {
         if (user) {
@@ -39,10 +52,9 @@ export class PortfolioPage implements OnInit {
           this.getOperationsValue();
         }
       });
-    this.coinMarketService.fetchNames();
-    if (this.user) {
-      this.getOperationsValue();
-    }
+    this.settingsService.settingsChanged.subscribe((settings) => {
+      this.moneyValue = settings.investmentCurrency;
+    });
   }
 
   goToNewOperation() {
@@ -66,7 +78,7 @@ export class PortfolioPage implements OnInit {
     Promise.all(request)
       .then((coins: any[]) => {
         this.total = coins.reduce((acum, coin, index) => {
-          const total = acum.total + operations[index].amount * coin.priceUSD;
+          const total = acum.total + operations[index].amount * coin.price;
           const profit = acum.profit + total - operations[index].investment;
           return {
             total,
@@ -92,6 +104,10 @@ export class PortfolioPage implements OnInit {
 
   onLogOut() {
     this.authService.logOut();
+  }
+
+  goToSettings() {
+    this.navCtrl.push(SettingsPage);
   }
 
   doRefresh(refresher) {
