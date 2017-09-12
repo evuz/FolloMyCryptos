@@ -1,4 +1,3 @@
-import { Operation } from './../../models/operation';
 import { Component, OnInit } from '@angular/core';
 import { NavController, LoadingController, Loading } from 'ionic-angular';
 
@@ -9,8 +8,10 @@ import { AuthService } from './../../services/auth';
 import { UserService } from './../../services/user';
 import { SettingsService } from './../../services/settings';
 import { CoinMarketService } from './../../services/coinMarket';
+import { CoinConvertService } from './../../services/coinConvert';
 
 import { User } from './../../models/user';
+import { Operation } from './../../models/operation';
 
 @Component({
   selector: 'page-portfolio',
@@ -29,6 +30,7 @@ export class PortfolioPage implements OnInit {
     private navCtrl: NavController,
     private loadingCtrl: LoadingController,
     private coinMarketService: CoinMarketService,
+    private coinConvertService: CoinConvertService,
     private authService: AuthService,
     private userService: UserService,
     private settingsService: SettingsService
@@ -52,26 +54,47 @@ export class PortfolioPage implements OnInit {
           this.getOperationsValue();
         }
       });
-    this.settingsService.settingsChanged.subscribe((settings) => {
-      this.moneyValue = settings.investmentCurrency;
-    });
+    this.settingsService.settingsChanged
+      .subscribe(async (settings) => {
+        if (this.moneyValue !== settings.investmentCurrency) {
+          this.moneyValue = settings.investmentCurrency;
+          const conversion = await this.coinConvertService.getConversion();
+
+          this.total = {
+            total: this.moneyValue === 'usd' ?
+              this.total.total / conversion : this.total.total * conversion,
+            profit: this.moneyValue === 'usd' ?
+              this.total.profit / conversion : this.total.profit * conversion
+          }
+          this.coinsValue = this.coinsValue.map((coin) => {
+            return Object.assign({}, coin, {
+              price: this.moneyValue === 'usd' ?
+                coin.price / conversion : coin.price * conversion
+            });
+          })
+        }
+      });
   }
 
   goToNewOperation() {
     this.navCtrl.push(NewOperationPage);
   }
 
-  private getOperationsValue(cb?) {
+  private async getOperationsValue(cb?) {
     if (this.pageActive && !this.fetching) {
       this.showLoading();
     } else {
       this.fetching = 'fetching';
     }
     const { operations } = this.user;
+    const conversion = this.moneyValue !== 'usd' ?
+      await this.coinConvertService.getConversion() : 1;
     const request = operations.map((operation) => {
-      return new Promise((res, rej) => {
+      return new Promise((resolve, reject) => {
         this.coinMarketService.getCoinById(operation.currency.id)
-          .subscribe(res)
+          .subscribe((res) => {
+            resolve(Object.assign({}, res, { price: res.price * conversion }));
+          });
       });
     });
 
@@ -79,7 +102,10 @@ export class PortfolioPage implements OnInit {
       .then((coins: any[]) => {
         this.total = coins.reduce((acum, coin, index) => {
           const total = acum.total + operations[index].amount * coin.price;
-          const profit = acum.profit + total - operations[index].investment;
+          const profit =
+            acum.profit + operations[index].amount * coin.price -
+            operations[index].investment * conversion;
+
           return {
             total,
             profit
