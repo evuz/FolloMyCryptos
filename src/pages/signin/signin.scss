@@ -18,6 +18,12 @@ page-signin {
       justify-content: flex-end;
     }
 
+    @media(max-height: 600px){
+      .footer {
+        display: none;
+      }
+    }
+
     .main-icon {
       flex-grow: 1;
       justify-content: center;
