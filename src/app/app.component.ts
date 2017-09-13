@@ -50,6 +50,8 @@ export class MyApp {
         }
 
         statusBar.styleDefault();
+        statusBar.backgroundColorByHexString('#607D8B')
+        statusBar.overlaysWebView(false);
         splashScreen.hide();
       })
   }
