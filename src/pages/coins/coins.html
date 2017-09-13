@@ -22,7 +22,7 @@
   </ion-refresher>
 
   <ion-list [virtualScroll]="items">
-    <button ion-item
+    <ion-item
       *virtualItem="let item"
       no-padding>
       <h2 float-start>{{ item.name }}</h2>
@@ -39,6 +39,6 @@
         color="decrease"
         class="trending"
         *ngIf="!item.isIncrease"></ion-icon>
-    </button>
+    </ion-item>
   </ion-list>
 </ion-content>
