@@ -5,6 +5,7 @@ import { HttpModule } from '@angular/http';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
+import { FingerprintAIO } from '@ionic-native/fingerprint-aio';
 
 import { MyApp } from './app.component';
 import { CoinsPage } from './../pages/coins/coins';
@@ -15,6 +16,8 @@ import { SettingsPage } from './../pages/settings/settings';
 import { TabsPage } from './../pages/tabs/tabs';
 import { NewOperationPage } from './../pages/new-operation/new-operation';
 import { SelectCurrencyPage } from './../pages/select-currency/select-currency';
+
+import { FingerprintComponent } from './../components/fingerprint/fingerprint';
 
 import { AuthService } from './../services/auth';
 import { CoinMarketService } from './../services/coinMarket';
@@ -35,7 +38,8 @@ import { MoneySymbolPipe } from './../pipe/moneySymbol';
     NewOperationPage,
     SelectCurrencyPage,
     SettingsPage,
-    MoneySymbolPipe
+    MoneySymbolPipe,
+    FingerprintComponent
   ],
   imports: [
     BrowserModule,
@@ -59,6 +63,7 @@ import { MoneySymbolPipe } from './../pipe/moneySymbol';
     StatusBar,
     SplashScreen,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
+    FingerprintAIO,
     AuthService,
     UserService,
     CoinMarketService,

@@ -19,7 +19,8 @@
         [formControlName]="'password'"></ion-input>
     </ion-item>
 
-    <ion-item color="light">
+    <ion-item color="light"
+      *ngIf="!useFingerprint">
       <ion-label>Remember password</ion-label>
       <ion-toggle [formControlName]="'remember'"></ion-toggle>
     </ion-item>
@@ -28,6 +29,8 @@
       type="submit">Login</button>
   </form>
   <div class="footer">
+    <app-fingerprint (fingerprintVerify)="signinFingerprint($event)"
+      (onChangeUseFingerprint)="onChangeUseFingerprint($event)"></app-fingerprint>
     <button ion-button
       clear
       small
