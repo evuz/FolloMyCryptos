@@ -51,10 +51,14 @@
       <ion-item-sliding *ngFor="let operation of user?.operations; let i = index">
         <ion-item>
           <h2 float-start>{{ operation.currency.name }}</h2>
-          <p float-end
-            *ngIf="coinsValue[i]">
-            {{ operation.amount * coinsValue[i].price | number:'1.0-0' }}{{ moneyValue | symbol }}
-          </p>
+          <div class="end">
+            <p *ngIf="coinsValue[i]">
+              {{ operation.amount * coinsValue[i].price | number:'1.0-0' }}{{ moneyValue | symbol }}
+            </p>
+            <p *ngIf="coinsValue[i]">
+              ({{ coinsValue[i].price | number:'1.1-4' }}{{ moneyValue | symbol }})
+            </p>
+          </div>
         </ion-item>
         <ion-item-options side="right">
           <button ion-button

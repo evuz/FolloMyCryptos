@@ -21,6 +21,23 @@ page-portfolio {
       }
     }
   }
+
+  .list {
+    .label  {
+      display: flex;
+    }
+
+    h2 {
+      flex: 1 1 50%;
+    }
+
+    .end {
+      display: flex;
+      flex-grow: 1;
+      justify-content: space-between;
+    }
+  }
+
   .col-end{
     display: flex;
     justify-content: flex-end;
